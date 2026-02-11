@@ -26,16 +26,17 @@ cloudinary.config(
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres.jbfyflxspbektjvmzeqt',
-        'PASSWORD': 'UVgDQZOdkYDfexVu',
-        'HOST': 'aws-0-us-west-1.pooler.supabase.com',
-        'PORT': '6543',  # PgBouncer port
-        'CONN_MAX_AGE': 0,  # Required for PgBouncer compatibility
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'novatrustbank$default',   # change if using the other db
+        'USER': 'novatrustbank',
+        'PASSWORD': 'Me12sleep',
+        'HOST': 'novatrustbank.mysql.pythonanywhere-services.com',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,9 +49,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-3_)^u&niz%-isn%ciqt+qx7*3h!bo(js3+s%x0qray8bkb8d_1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True 
+DEBUG = True
 
-ALLOWED_HOSTS = ['valortrustfinance.fly.dev']
+ALLOWED_HOSTS = ['novatrustbank.pythonanywhere.com']
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dlzn0moho',
@@ -59,7 +60,7 @@ CLOUDINARY_STORAGE = {
 }
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://valortrustfinance.fly.dev",
+    "https://novatrustbank.pythonanywhere.com",
 ]
 
 MEDIA_URL = '/media/'  # or any prefix you choose
