@@ -23,20 +23,45 @@ cloudinary.config(
     api_key="563396395915366",
     api_secret="pCSSrLNvxfFSEzY4ZnaOiF5u93o"
 )
+# Database
+# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# Default database - SQLite for development
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'novatrustbank$default',   # change if using the other db
-        'USER': 'novatrustbank',
-        'PASSWORD': 'Me12sleep',
-        'HOST': 'novatrustbank.mysql.pythonanywhere-services.com',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# -------- FLY.IO PRODUCTION SETTINGS --------
+import os
+
+# Detect if we're running on Fly.io
+FLY_APP_NAME = os.environ.get('FLY_APP_NAME', False)
+
+if FLY_APP_NAME:
+    # Use persistent volume for SQLite database on Fly.io
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': '/app/data/db.sqlite3',
+    }
+    
+    # Static files configuration
+    STATIC_ROOT = '/app/staticfiles'
+    STATIC_URL = '/static/'
+    
+    # Security settings
+    DEBUG = False
+    ALLOWED_HOSTS = ['valortrustfinance.fly.dev', 'localhost', '127.0.0.1']
+    
+    # Add whitenoise for static files
+    MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    
+    # Ensure directories exist
+    os.makedirs('/app/data', exist_ok=True)
+    os.makedirs('/app/staticfiles', exist_ok=True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,20 +73,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-3_)^u&niz%-isn%ciqt+qx7*3h!bo(js3+s%x0qray8bkb8d_1'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['novatrustbank.pythonanywhere.com']
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dlzn0moho',
     'API_KEY': '563396395915366',
     'API_SECRET': 'pCSSrLNvxfFSEzY4ZnaOiF5u93o',
 }
-
-CSRF_TRUSTED_ORIGINS = [
-    "https://novatrustbank.pythonanywhere.com",
-]
 
 MEDIA_URL = '/media/'  # or any prefix you choose
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

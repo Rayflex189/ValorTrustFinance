@@ -1,29 +1,30 @@
-app = "valortrustfinance"
-primary_region = "sjc"
+# fly.toml app configuration file generated for valortrustfinance on 2026-02-12T15:35:00Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'valortrustfinance'
+primary_region = 'sjc'
 
 [build]
-  dockerfile = "Dockerfile"
+  dockerfile = 'Dockerfile'
 
 [env]
-  DEBUG = "0"
-  PYTHONDONTWRITEBYTECODE = "1"
-  PYTHONUNBUFFERED = "1"
+  DEBUG = '0'
+  DJANGO_SETTINGS_MODULE = 'wealthbridge.settings'
+  FLY_APP_NAME = 'valortrustfinance'
+
+[[mounts]]
+  source = 'data'
+  destination = '/app/data'
 
 [http_service]
   internal_port = 8000
-  force_https = true
-  auto_stop_machines = true
+  auto_stop_machines = 'off'
   auto_start_machines = true
-  min_machines_running = 0
+  min_machines_running = 1
 
-  [[http_service.ports]]
-    handlers = ["http"]
-    port = 80
-
-  [[http_service.ports]]
-    handlers = ["tls", "http"]
-    port = 443
-
-[mounts]
-  source = "data"
-  destination = "/app/data"
+[[vm]]
+  memory = '1gb'
+  cpus = 1
+  memory_mb = 1024
