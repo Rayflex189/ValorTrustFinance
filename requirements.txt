@@ -29,7 +29,6 @@ jeepney==0.9.0
 keyring==25.6.0
 more-itertools==10.6.0
 msgpack==1.1.0
-mysqlclient==2.2.7
 packaging==24.2
 pillow==11.1.0
 pkginfo==1.12.0

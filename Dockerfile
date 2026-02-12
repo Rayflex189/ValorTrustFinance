@@ -3,11 +3,8 @@ FROM python:3.12-slim AS builder
 
 # Install build tools and dependencies
 RUN apt-get update && apt-get install -y \
-    build-essential libssl-dev libpq-dev libffi-dev curl unzip git \
+    build-essential libssl-dev libffi-dev curl unzip git \
     && rm -rf /var/lib/apt/lists/*
-
-# Set environment to force mise to compile Python from source
-ENV MISE_SETTINGS_PYTHON_COMPILE=1
 
 # Set working directory
 WORKDIR /app
@@ -21,23 +18,35 @@ FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV FLY_APP_NAME=valortrustfinance
+ENV DJANGO_SETTINGS_MODULE=wealthbridge.settings
 
 WORKDIR /app
 
-# Install runtime dependencies
-RUN apt-get update && apt-get install -y libpq-dev && rm -rf /var/lib/apt/lists/*
+# Install runtime dependencies (SQLite support)
+RUN apt-get update && apt-get install -y \
+    sqlite3 \
+    libsqlite3-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy installed packages and app
-COPY --from=builder /usr/local/lib/python3.12 /usr/local/lib/python3.12
+# Copy installed packages from builder
+COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
 COPY --from=builder /usr/local/bin /usr/local/bin
+
+# Copy the entire wealthbridge directory (which contains manage.py and your app)
 COPY wealthbridge/ /app/
 
-# Django setup
-RUN python manage.py collectstatic --no-input && \
-    python manage.py makemigrations && \
-    python manage.py migrate && \
-    python manage.py create_admin || echo "Admin user creation skipped."
+# Create data directory for persistent volume
+RUN mkdir -p /app/data && chmod 777 /app/data
 
+# Create static directory
+RUN mkdir -p /app/staticfiles && chmod 777 /app/staticfiles
+
+# Collect static files - now manage.py is at /app/manage.py
+RUN python manage.py collectstatic --noinput || true
+
+# Expose port
 EXPOSE 8000
 
-CMD ["gunicorn", "wealthbridge.wsgi:application", "--bind", "0.0.0.0:8000"]
+# Start Gunicorn
+CMD ["gunicorn", "wealthbridge.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2", "--threads", "2"]g

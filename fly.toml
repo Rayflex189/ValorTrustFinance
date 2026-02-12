@@ -1,11 +1,11 @@
 app = "valortrustfinance"
-primary_region = "phx"
+primary_region = "sjc"
 
 [build]
   dockerfile = "Dockerfile"
 
 [env]
-  MISE_SETTINGS_PYTHON_COMPILE = "1"
+  DEBUG = "0"
   PYTHONDONTWRITEBYTECODE = "1"
   PYTHONUNBUFFERED = "1"
 
@@ -23,3 +23,7 @@ primary_region = "phx"
   [[http_service.ports]]
     handlers = ["tls", "http"]
     port = 443
+
+[mounts]
+  source = "data"
+  destination = "/app/data"
