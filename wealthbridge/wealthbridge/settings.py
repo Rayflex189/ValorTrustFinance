@@ -133,11 +133,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # ==============================================================================
-# DEFAULT PRIMARY KEY FIELD TYPE
-# ==============================================================================
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# ==============================================================================
 # FLY.IO PRODUCTION SETTINGS
 # ==============================================================================
 FLY_APP_NAME = os.environ.get('FLY_APP_NAME', False)
@@ -157,11 +152,15 @@ if FLY_APP_NAME:
     DEBUG = False
     ALLOWED_HOSTS = [
         'valortrustfinance.fly.dev',
+        'valortrustfinance.it.com',
+        'www.valortrustfinance.it.com',
         'localhost',
         '127.0.0.1',
     ]
     CSRF_TRUSTED_ORIGINS = [
         'https://valortrustfinance.fly.dev',
+        'https://valortrustfinance.it.com',
+        'https://www.valortrustfinance.it.com',
     ]
     
     # Secret key from environment
