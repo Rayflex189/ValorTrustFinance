@@ -149,7 +149,7 @@ if FLY_APP_NAME:
     STATIC_URL = '/static/'
     
     # Security
-    DEBUG = False
+    DEBUG = True
     ALLOWED_HOSTS = [
         'valortrustfinance.fly.dev',
         'valortrustfinance.it.com',
