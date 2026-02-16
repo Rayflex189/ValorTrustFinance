@@ -149,19 +149,22 @@ if FLY_APP_NAME:
     STATIC_URL = '/static/'
     
     # Security
-    DEBUG = True
-    ALLOWED_HOSTS = [
-        'valortrustfinance.fly.dev',
-        'valortrustfinance.it.com',
-        'www.valortrustfinance.it.com',
-        'localhost',
-        '127.0.0.1',
-    ]
-    CSRF_TRUSTED_ORIGINS = [
-        'https://valortrustfinance.fly.dev',
-        'https://valortrustfinance.it.com',
-        'https://www.valortrustfinance.it.com',
-    ]
+DEBUG = False
+ALLOWED_HOSTS = [
+    'valortrustfinance.fly.dev',
+    'valortrustfinance.it.com',
+    'www.valortrustfinance.it.com',
+    'localhost',
+    '127.0.0.1',
+    '[2a09:8280:1::d3:729:0]',  # Add this line - your IPv6 address
+    '2a09:8280:1::d3:729:0',     # Also try without brackets
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://valortrustfinance.fly.dev',
+    'https://valortrustfinance.it.com',
+    'https://www.valortrustfinance.it.com',
+]
     
     # Secret key from environment
     SECRET_KEY = os.environ.get('SECRET_KEY', SECRET_KEY)
