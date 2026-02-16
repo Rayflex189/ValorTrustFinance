@@ -154,9 +154,6 @@ if FLY_APP_NAME:
         'valortrustfinance.fly.dev',
         'valortrustfinance.it.com',
         'www.valortrustfinance.it.com',
-        'localhost',
-        '127.0.0.1',
-        '[2a09:8280:1::d3:729:0]',
     ]
     CSRF_TRUSTED_ORIGINS = [
         'https://valortrustfinance.fly.dev',
@@ -164,7 +161,18 @@ if FLY_APP_NAME:
         'https://www.valortrustfinance.it.com',
     ]
     
-    # Secret key from environment
+    # ===== ADD THESE SECURITY SETTINGS =====
+    # HTTPS Security
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    
+    # Cookie Security
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    
+    # Secret key from environment (make sure it's long and random)
     SECRET_KEY = os.environ.get('SECRET_KEY', SECRET_KEY)
     
     # Ensure directories exist
