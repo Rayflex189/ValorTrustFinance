@@ -4,7 +4,7 @@
 #
 
 app = 'valortrustfinance'
-primary_region = 'sjc'
+primary_region = 'lax'
 
 [build]
   dockerfile = 'Dockerfile'
