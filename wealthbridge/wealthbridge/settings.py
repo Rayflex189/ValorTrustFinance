@@ -34,7 +34,7 @@ MEDIA_URL = '/media/'
 # ==============================================================================
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-dev-key-change-this')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['valortrustfinance.fly.dev']
 
 # ==============================================================================
 # APPLICATION DEFINITION
@@ -152,13 +152,9 @@ if FLY_APP_NAME:
     DEBUG = False
     ALLOWED_HOSTS = [
         'valortrustfinance.fly.dev',
-        'valortrustfinance.it.com',
-        'www.valortrustfinance.it.com',
     ]
     CSRF_TRUSTED_ORIGINS = [
         'https://valortrustfinance.fly.dev',
-        'https://valortrustfinance.it.com',
-        'https://www.valortrustfinance.it.com',
     ]
     
     # ===== ADD THESE SECURITY SETTINGS =====
