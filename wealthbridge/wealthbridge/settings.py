@@ -32,9 +32,22 @@ MEDIA_URL = '/media/'
 # ==============================================================================
 # SECURITY CONFIGURATION
 # ==============================================================================
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-dev-key-change-this')
+import os
+
+# Get secret key from environment, with a secure fallback for development only
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY', 
+    'django-insecure-!@#$%^&*()_+{}|:"<>?~qwertyuiopasdfghjklzxcvbnm1234567890'
+)
+
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+
+# Production hosts
 ALLOWED_HOSTS = ['valortrustfinance.fly.dev']
+
+# Add local development hosts when in DEBUG mode
+if DEBUG:
+    ALLOWED_HOSTS.extend(['localhost', '127.0.0.1', 'localhost:8000', '.fly.dev'])
 
 # ==============================================================================
 # APPLICATION DEFINITION
